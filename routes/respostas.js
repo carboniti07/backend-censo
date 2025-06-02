@@ -17,16 +17,20 @@ function formatarTimestamp() {
 // POST /respostas
 router.post("/", async (req, res) => {
   try {
-    const { matricula, respostas } = req.body;
-    if (!matricula || !respostas) {
-      return res.status(400).json({ erro: "Matrícula e respostas são obrigatórios." });
+    const { matricula = "", respostas, pagina, data, hora, id } = req.body;
+
+    if (!respostas) {
+      return res.status(400).json({ erro: "Respostas são obrigatórias." });
     }
 
     const novaResposta = new Resposta({
       matricula,
       respostas,
-      id_unico: gerarIdUnico(matricula),
-      timestamp: formatarTimestamp()
+      pagina: pagina || "desconhecido",
+      id_unico: id || gerarIdUnico(matricula),
+      timestamp: formatarTimestamp(),
+      data,
+      hora
     });
 
     await novaResposta.save();
@@ -34,17 +38,6 @@ router.post("/", async (req, res) => {
   } catch (err) {
     console.error("Erro ao salvar resposta:", err);
     res.status(500).json({ erro: "Erro ao salvar resposta." });
-  }
-});
-
-// GET /respostas
-router.get("/", async (req, res) => {
-  try {
-    const respostas = await Resposta.find();
-    res.json(respostas);
-  } catch (err) {
-    console.error("Erro ao buscar respostas:", err);
-    res.status(500).json({ erro: "Erro ao buscar respostas." });
   }
 });
 
