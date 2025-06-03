@@ -6,29 +6,29 @@ router.get("/:cpf/:nascimento", async (req, res) => {
   try {
     let { cpf, nascimento } = req.params;
 
-    cpf = cpf.replace(/\D/g, "");
-    nascimento = nascimento.replace(/[-.]/g, "/");
+    // Remove formatações e espaços
+    cpf = cpf.replace(/\D/g, "").trim();
+    nascimento = nascimento.replace(/[-.]/g, "/").trim();
 
-    console.log("🟡 Buscando com CPF:", cpf, "e nascimento:", nascimento);
+    console.log("🔍 Procurando:", { cpf, nascimento });
 
-    const membro = await Membro.findOne({
-      cpf: { $regex: new RegExp(`^${cpf}$`) },
-      nascimento: { $regex: new RegExp(`^${nascimento}$`) }
-    });
+    const membro = await Membro.findOne({ cpf });
 
     if (!membro) {
-      console.log("🔴 Membro não encontrado.");
-      return res.status(404).json({ erro: "Membro não encontrado" });
+      return res.status(404).json({ erro: "CPF não encontrado" });
     }
 
-    console.log("🟢 Membro encontrado:", membro);
-    res.json(membro);
+    const nascimentoBanco = membro.nascimento.replace(/[-.]/g, "/").trim();
+
+    if (nascimentoBanco !== nascimento) {
+      return res.status(401).json({ erro: "Data de nascimento incorreta" });
+    }
+
+    return res.json(membro);
   } catch (err) {
-    console.error("Erro:", err);
-    res.status(500).json({ erro: "Erro ao buscar membro" });
+    console.error("Erro ao buscar membro:", err);
+    return res.status(500).json({ erro: "Erro interno do servidor" });
   }
 });
-
-
 
 module.exports = router;
