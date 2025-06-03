@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
     }
 
     const novaResposta = new Resposta({
-      matricula,  
+      matricula,
       respostas,
       pagina: pagina || "desconhecido",
       id_unico: id || gerarIdUnico(matricula),
@@ -41,5 +41,15 @@ router.post("/", async (req, res) => {
   }
 });
 
+// ✅ GET /respostas — ESSENCIAL PARA O DASHBOARD
+router.get("/", async (req, res) => {
+  try {
+    const respostas = await Resposta.find();
+    res.json(respostas);
+  } catch (err) {
+    console.error("Erro ao buscar respostas:", err);
+    res.status(500).json({ erro: "Erro ao buscar respostas." });
+  }
+});
 
 module.exports = router;
