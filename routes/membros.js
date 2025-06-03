@@ -6,11 +6,10 @@ router.get("/:cpf/:nascimento", async (req, res) => {
   try {
     let { cpf, nascimento } = req.params;
 
-    // ✅ Remove pontos, traço ou qualquer caractere que não seja número
     cpf = cpf.replace(/\D/g, "");
-
-    // ✅ Garante que a data esteja no formato com barras
     nascimento = nascimento.replace(/[-.]/g, "/");
+
+    console.log("🔍 Buscando membro com:", { cpf, nascimento }); // 👈 ISSO AQUI
 
     const membro = await Membro.findOne({ cpf, nascimento });
 
