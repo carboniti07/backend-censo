@@ -9,14 +9,15 @@ router.get("/:cpf/:nascimento", async (req, res) => {
     cpf = cpf.replace(/\D/g, "");
     nascimento = nascimento.replace(/[-.]/g, "/");
 
-    console.log("🟡 Parâmetros recebidos:");
-    console.log("CPF recebido:", cpf);
-    console.log("Nascimento recebido:", nascimento);
+    console.log("🟡 Buscando com CPF:", cpf, "e nascimento:", nascimento);
 
-    const membro = await Membro.findOne({ cpf, nascimento });
+    const membro = await Membro.findOne({
+      cpf: { $regex: new RegExp(`^${cpf}$`) },
+      nascimento: { $regex: new RegExp(`^${nascimento}$`) }
+    });
 
     if (!membro) {
-      console.log("🔴 Membro não encontrado com:", { cpf, nascimento });
+      console.log("🔴 Membro não encontrado.");
       return res.status(404).json({ erro: "Membro não encontrado" });
     }
 
@@ -27,6 +28,7 @@ router.get("/:cpf/:nascimento", async (req, res) => {
     res.status(500).json({ erro: "Erro ao buscar membro" });
   }
 });
+
 
 
 module.exports = router;
