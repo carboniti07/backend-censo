@@ -4,18 +4,23 @@ const Membro = require("../models/Membro");
 
 router.get("/:cpf/:nascimento", async (req, res) => {
   try {
-    const limparCPF = (cpf) => cpf.replace(/\D/g, "");
-    const formatarData = (data) => data.replace(/-/g, "/");
+    const { cpf, nascimento } = req.params;
 
-    const cpf = limparCPF(req.params.cpf);
-    const nascimento = formatarData(req.params.nascimento);
+    const cpfLimpo = cpf.replace(/\D/g, ""); // Remove pontos e traços
+    const nascimentoFormatado = nascimento.replace(/-/g, "/"); // Transforma 30-08-2007 em 30/08/2007
 
-    const membro = await Membro.findOne({ cpf, nascimento });
+    console.log("Buscando por:", cpfLimpo, nascimentoFormatado); // ✅ debug
+
+    const membro = await Membro.findOne({
+      cpf: cpfLimpo,
+      nascimento: nascimentoFormatado
+    });
 
     if (!membro) return res.status(404).json({ erro: "Membro não encontrado" });
 
     res.json(membro);
   } catch (err) {
+    console.error("Erro:", err);
     res.status(500).json({ erro: "Erro ao buscar membro" });
   }
 });
