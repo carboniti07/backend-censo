@@ -3,20 +3,21 @@ const router = express.Router();
 const Membro = require("../models/Membro");
 
 router.get("/:cpf/:nascimento", async (req, res) => {
-    try {
-        const { cpf, nascimento } = req.params;
+  try {
+    const limparCPF = (cpf) => cpf.replace(/\D/g, "");
+    const formatarData = (data) => data.replace(/-/g, "/");
 
-        const membro = await Membro.findOne({
-            cpf,
-            nascimento
-        });
+    const cpf = limparCPF(req.params.cpf);
+    const nascimento = formatarData(req.params.nascimento);
 
-        if (!membro) return res.status(404).json({ erro: "Membro não encontrado" });
+    const membro = await Membro.findOne({ cpf, nascimento });
 
-        res.json(membro);
-    } catch (err) {
-        res.status(500).json({ erro: "Erro ao buscar membro" });
-    }
+    if (!membro) return res.status(404).json({ erro: "Membro não encontrado" });
+
+    res.json(membro);
+  } catch (err) {
+    res.status(500).json({ erro: "Erro ao buscar membro" });
+  }
 });
 
 module.exports = router;
