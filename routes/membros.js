@@ -9,17 +9,24 @@ router.get("/:cpf/:nascimento", async (req, res) => {
     cpf = cpf.replace(/\D/g, "");
     nascimento = nascimento.replace(/[-.]/g, "/");
 
-    console.log("🔍 Buscando membro com:", { cpf, nascimento }); // 👈 ISSO AQUI
+    console.log("🟡 Parâmetros recebidos:");
+    console.log("CPF recebido:", cpf);
+    console.log("Nascimento recebido:", nascimento);
 
     const membro = await Membro.findOne({ cpf, nascimento });
 
-    if (!membro) return res.status(404).json({ erro: "Membro não encontrado" });
+    if (!membro) {
+      console.log("🔴 Membro não encontrado com:", { cpf, nascimento });
+      return res.status(404).json({ erro: "Membro não encontrado" });
+    }
 
+    console.log("🟢 Membro encontrado:", membro);
     res.json(membro);
   } catch (err) {
     console.error("Erro:", err);
     res.status(500).json({ erro: "Erro ao buscar membro" });
   }
 });
+
 
 module.exports = router;
