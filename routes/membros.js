@@ -8,9 +8,14 @@ router.get("/:cpf/:nascimento", async (req, res) => {
 
     // Remove formatações e espaços
     cpf = cpf.replace(/\D/g, "").trim();
-    nascimento = nascimento.replace(/[-.]/g, "/").trim();
+    function limparData(data) {
+      return data.replace(/\D/g, ""); // remove tudo que não for número
+    }
 
-    console.log("🔍 Procurando:", { cpf, nascimento });
+    cpf = cpf.replace(/\D/g, "").trim();
+    const nascimentoLimpo = limparData(nascimento);
+
+    console.log("🔍 Procurando:", { cpf, nascimentoLimpo });
 
     const membro = await Membro.findOne({ cpf });
 
@@ -18,13 +23,15 @@ router.get("/:cpf/:nascimento", async (req, res) => {
       return res.status(404).json({ erro: "CPF não encontrado" });
     }
 
-    const nascimentoBanco = membro.nascimento.replace(/[-.]/g, "/").trim();
+    const nascimentoBancoLimpo = limparData(membro.nascimento);
 
-    if (nascimentoBanco !== nascimento) {
+    if (nascimentoBancoLimpo !== nascimentoLimpo) {
       return res.status(401).json({ erro: "Data de nascimento incorreta" });
     }
 
     return res.json(membro);
+
+   
   } catch (err) {
     console.error("Erro ao buscar membro:", err);
     return res.status(500).json({ erro: "Erro interno do servidor" });
