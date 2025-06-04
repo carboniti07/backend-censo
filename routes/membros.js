@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Membro = require("../models/membro"); // ✅ caminho certo e nome padronizado
+const Membro = require("../models/membro"); // ✅ Caminho correto e nome adequado
 
 router.get("/:cpf/:nascimento", async (req, res) => {
   try {
@@ -8,7 +8,6 @@ router.get("/:cpf/:nascimento", async (req, res) => {
 
     // Remove formatações
     cpf = cpf.replace(/\D/g, "").trim();
-
     const limparData = (data) => data.replace(/\D/g, "");
     const nascimentoLimpo = limparData(nascimento);
 
