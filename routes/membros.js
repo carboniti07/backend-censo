@@ -1,18 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const Membro = require("./models/membro");
-
+const Membro = require("../models/Membro");
 
 router.get("/:cpf/:nascimento", async (req, res) => {
   try {
     let { cpf, nascimento } = req.params;
 
-    // Remove formatações
+    // Remove formatações e espaços
     cpf = cpf.replace(/\D/g, "").trim();
-    const limparData = (data) => data.replace(/\D/g, "");
-    const nascimentoLimpo = limparData(nascimento);
+    nascimento = nascimento.replace(/[-.]/g, "/").trim();
 
-    console.log("🔍 Procurando:", { cpf, nascimentoLimpo });
+    console.log("🔍 Procurando:", { cpf, nascimento });
 
     const membroEncontrado = await Membro.findOne({ cpf });
 
@@ -20,9 +18,9 @@ router.get("/:cpf/:nascimento", async (req, res) => {
       return res.status(404).json({ erro: "CPF não encontrado" });
     }
 
-    const nascimentoBancoLimpo = limparData(membroEncontrado.nascimento);
+    const nascimentoBanco = membroEncontrado.nascimento.replace(/[-.]/g, "/").trim();
 
-    if (nascimentoBancoLimpo !== nascimentoLimpo) {
+    if (nascimentoBanco !== nascimento) {
       return res.status(401).json({ erro: "Data de nascimento incorreta" });
     }
 

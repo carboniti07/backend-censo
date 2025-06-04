@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const membro = require(".membro/models/membro");
+const Membro = require("./models/Membro");
 const { membros } = require("./utils/dados"); // caminho do dados.js
 
 mongoose.connect(process.env.MONGODB_URI, {
@@ -11,8 +11,8 @@ mongoose.connect(process.env.MONGODB_URI, {
 }).then(async () => {
   console.log("Conectado ao MongoDB");
 
-  await membro.deleteMany(); // limpa antigos
-  await membro.insertMany(membros); // importa novos
+  await Membro.deleteMany(); // limpa antigos
+  await Membro.insertMany(membros); // importa novos
 
   console.log("Membros importados com sucesso");
   process.exit();

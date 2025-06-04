@@ -17,4 +17,4 @@ const membroSchema = new mongoose.Schema({
   emissao: String
 });
 
-module.exports = mongoose.model("membro", membroSchema);
+module.exports = mongoose.model("Membro", membroSchema);
