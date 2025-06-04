@@ -6,21 +6,15 @@ router.get("/:cpf/:nascimento", async (req, res) => {
   try {
     let { cpf, nascimento } = req.params;
 
-    cpf = cpf.replace(/\D/g, "").trim(); // remove pontos e traços
-    nascimento = nascimento.replace(/[-.]/g, "/").trim(); // normaliza data
+    cpf = cpf.replace(/\D/g, "").trim();
+    nascimento = nascimento.replace(/[-.]/g, "/").trim();
 
-    console.log("🔍 Procurando membro:", { cpf, nascimento });
+    console.log("🔍 Procurando membro com CPF:", cpf, "e nascimento:", nascimento);
 
-    const membro = await Membro.findOne({ cpf });
+    const membro = await Membro.findOne({ cpf, nascimento });
 
     if (!membro) {
-      return res.status(404).json({ erro: "CPF não encontrado." });
-    }
-
-    const nascimentoBanco = membro.nascimento.replace(/[-.]/g, "/").trim();
-
-    if (nascimentoBanco !== nascimento) {
-      return res.status(401).json({ erro: "Data de nascimento incorreta." });
+      return res.status(404).json({ erro: "Membro não encontrado. Verifique os dados." });
     }
 
     return res.json(membro);
