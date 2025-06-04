@@ -1,20 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const Membro = require("../models/membro"); // ✅ certo
-
-
+const Membro = require("./models/membro"); // ✅ Nome correto
 
 router.get("/:cpf/:nascimento", async (req, res) => {
   try {
     let { cpf, nascimento } = req.params;
 
-    // Remove formatações e espaços
+    // Limpa formatações
     cpf = cpf.replace(/\D/g, "").trim();
     nascimento = nascimento.replace(/[-.]/g, "/").trim();
 
     console.log("🔍 Procurando:", { cpf, nascimento });
 
-    const membroEncontrado = await Membro.findOne({ cpf });
+    const membroEncontrado = await Membro.findOne({ cpf }); // ✅ nome diferente
 
     if (!membroEncontrado) {
       return res.status(404).json({ erro: "CPF não encontrado" });
