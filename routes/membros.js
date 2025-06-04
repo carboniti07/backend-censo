@@ -17,7 +17,7 @@ router.get("/:cpf/:nascimento", async (req, res) => {
 
     console.log("🔍 Procurando:", { cpf, nascimentoLimpo });
 
-    const membro = await Membro.findOne({ cpf });
+    const membro = await membro.findOne({ cpf });
 
     if (!membro) {
       return res.status(404).json({ erro: "CPF não encontrado" });
