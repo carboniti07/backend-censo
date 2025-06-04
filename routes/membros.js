@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const Membro = require("../models/Membro");
+const Membro = require("../models/membro"); // ✅ certo
+
+
 
 router.get("/:cpf/:nascimento", async (req, res) => {
   try {
