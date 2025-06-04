@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const Membro = require("./models/Membro");
+const Membro = require("./models/membro");
 const { membros } = require("./utils/dados"); // caminho do dados.js
 
 mongoose.connect(process.env.MONGODB_URI, {
