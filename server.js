@@ -15,6 +15,8 @@ const membroRoutes = require("./routes/membros");
 
 app.use("/respostas", respostaRoutes);
 app.use("/membro", membroRoutes);
+console.log("🔧 Rota /membro está registrada!");
+
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -29,3 +31,4 @@ mongoose.connect(process.env.MONGODB_URI, {
 .catch((err) => {
   console.error("❌ Erro ao conectar no MongoDB:", err.message);
 });
+

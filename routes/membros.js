@@ -2,6 +2,11 @@ const express = require("express");
 const router = express.Router();
 const Membro = require("../models/Membro");
 
+router.get("/teste", (req, res) => {
+  res.send("✅ Rota /membro/teste funcionando!");
+});
+
+
 router.get("/:cpf/:nascimento", async (req, res) => {
   try {
     let { cpf, nascimento } = req.params;
