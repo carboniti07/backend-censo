@@ -11,7 +11,7 @@ app.use(express.json());
 const respostaRoutes = require("./routes/respostas");
 app.use("/respostas", respostaRoutes);
 const membroRoutes = require("./routes/membros");
-app.use("/membros", membroRoutes);
+app.use("/membro", membroRoutes);
 
 
 mongoose.connect(process.env.MONGODB_URI, {
