@@ -1,6 +1,6 @@
 //dados.js//
 
-export const membros = [
+const membros = [
     { nome: "ADRIANA DA SILVA MAFRA LACERDA", atividade: "DIACONISA", congregacao: "001 RUDGE RAMOS / SEDE", status: "ATIVO", cpf: "16679064880", nascimento: "09/12/1974", membrodesde: "07/11/2005", batismo: "20/12/1991", ordenacao: "22/11/2020", matricula: "8500", conamad: "", id: "0", emissao: "", dizimo: "" },
     { nome: "ALDA MARIA BELIZARIO FARIAS", atividade: "MEMBRO", congregacao: "001 RUDGE RAMOS / SEDE", status: "ATIVO", cpf: "10766622851", nascimento: "27/11/1965", membrodesde: "14/10/2003", batismo: "31/12/1992", ordenacao: "", matricula: "7833", conamad: "", id: "0", emissao: "", dizimo: "" },
     { nome: "ALDAIR SILVEIRA DAMASCENO", atividade: "DIACONISA", congregacao: "001 RUDGE RAMOS / SEDE", status: "ATIVO", cpf: "41082354791", nascimento: "26/03/1958", membrodesde: "01/08/2022", batismo: "01/08/2022", ordenacao: "19/08/2007", matricula: "4161", conamad: "", id: "0", emissao: "", dizimo: "" },
@@ -7329,3 +7329,5 @@ export const membros = [
     { nome: "ROSEANE MATIAS ", atividade: "MEMBRO", congregacao: "061 V FLORIDA", status: "AGUAR", cpf: "22583892835", nascimento: "13/07/1973", membrodesde: "", batismo: "", ordenacao: "", matricula: "21021", conamad: "", id: "1", emissao: "", dizimo: "" },
 
 ];
+
+module.exports = {membros};

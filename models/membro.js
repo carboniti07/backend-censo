@@ -14,7 +14,8 @@ const membroSchema = new mongoose.Schema({
   conamad: String,
   id: Number,
   dizimo: String,
-  emissao: String
+  emissao: String,
+  atualizado: String // caso queira usar controle de atualização depois
 });
 
 module.exports = mongoose.model("Membro", membroSchema);

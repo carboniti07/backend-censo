@@ -41,7 +41,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// ✅ GET /respostas — ESSENCIAL PARA O DASHBOARD
+// GET /respostas
 router.get("/", async (req, res) => {
   try {
     const respostas = await Resposta.find();
