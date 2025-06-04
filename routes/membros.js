@@ -2,24 +2,19 @@ const express = require("express");
 const router = express.Router();
 const Membro = require("../models/membro"); // ✅ Nome correto
 
-router.get("/:cpf/:nascimento", async (req, res) => {
+router.get("/:cpf", async (req, res) => {
   try {
-    let { cpf, nascimento } = req.params;
+    const cpf = req.params.cpf.replace(/\D/g, "").trim();
+    const nascimento = req.query.nascimento?.replace(/[-.]/g, "/").trim();
 
-    // Limpa formatações
-    cpf = cpf.replace(/\D/g, "").trim();
-    nascimento = nascimento.replace(/[-.]/g, "/").trim();
-
-    console.log("🔍 Procurando:", { cpf, nascimento });
-
-    const membroEncontrado = await Membro.findOne({ cpf }); // ✅ nome diferente
-
-    if (!membroEncontrado) {
-      return res.status(404).json({ erro: "CPF não encontrado" });
+    if (!nascimento) {
+      return res.status(400).json({ erro: "Data de nascimento obrigatória." });
     }
 
-    const nascimentoBanco = membroEncontrado.nascimento.replace(/[-.]/g, "/").trim();
+    const membroEncontrado = await Membro.findOne({ cpf });
+    if (!membroEncontrado) return res.status(404).json({ erro: "CPF não encontrado" });
 
+    const nascimentoBanco = membroEncontrado.nascimento.replace(/[-.]/g, "/").trim();
     if (nascimentoBanco !== nascimento) {
       return res.status(401).json({ erro: "Data de nascimento incorreta" });
     }
@@ -30,5 +25,7 @@ router.get("/:cpf/:nascimento", async (req, res) => {
     return res.status(500).json({ erro: "Erro interno do servidor" });
   }
 });
+
+
 
 module.exports = router;
