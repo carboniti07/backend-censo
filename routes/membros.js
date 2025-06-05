@@ -9,8 +9,8 @@ router.get("/teste", (req, res) => {
 
 router.get("/:cpf/:nascimento", async (req, res) => {
   try {
-    let { cpf, nascimento } = req.params;
-
+    let { cpf, nascimento } = req.params; 
+  
     cpf = cpf.replace(/\D/g, "").trim();
     nascimento = nascimento.replace(/[-.]/g, "/").trim();
 
