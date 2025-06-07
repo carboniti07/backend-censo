@@ -12,7 +12,8 @@ router.get("/:cpf/:nascimento", async (req, res) => {
     let { cpf, nascimento } = req.params; 
   
     cpf = cpf.replace(/\D/g, "").trim();
-    nascimento = nascimento.replace(/[-.]/g, "/").trim();
+    nascimento = nascimento.replace(/\//g, "-").trim();
+
 
     console.log("🔍 Procurando membro com CPF:", cpf, "e nascimento:", nascimento);
 
