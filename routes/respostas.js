@@ -120,17 +120,6 @@ router.post("/", async (req, res) => {
     res.status(500).json({ erro: "Erro ao salvar resposta." });
   }
 });
-// GET /respostas - retorna todas as respostas
-router.get("/", async (req, res) => {
-  try {
-    const respostas = await Resposta.find();
-    res.json(respostas);
-  } catch (err) {
-    console.error("Erro ao buscar respostas:", err);
-    res.status(500).json({ erro: "Erro interno ao buscar respostas" });
-  }
-});
-
 
 
 module.exports = router;
