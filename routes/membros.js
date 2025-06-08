@@ -6,6 +6,16 @@ router.get("/teste", (req, res) => {
   res.send("✅ Rota /membro/teste funcionando!");
 });
 
+router.get("/:cpf/verificar", async (req, res) => {
+  try {
+    const { cpf } = req.params;
+    const membro = await Membro.findOne({ cpf: cpf.trim() });
+    if (membro) return res.json(membro);
+    return res.status(404).json({ erro: "Membro não encontrado" });
+  } catch (err) {
+    return res.status(500).json({ erro: "Erro ao buscar CPF" });
+  }
+});
 
 router.get("/:cpf/:nascimento", async (req, res) => {
   try {
@@ -33,7 +43,10 @@ router.get("/:cpf/:nascimento", async (req, res) => {
     console.error("Erro ao buscar membro:", err);
     return res.status(500).json({ erro: "Erro interno do servidor." });
   }
+
 });
+
+
 
 
 module.exports = router;

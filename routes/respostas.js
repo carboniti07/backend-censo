@@ -87,31 +87,34 @@ router.post("/", async (req, res) => {
       ]
     };
 
+    let respostasFinal = respostas;
+
     if (Array.isArray(respostas) && pagina && perguntasMap[pagina]) {
-      const novaRespostas = {};
+      respostasFinal = {};
       perguntasMap[pagina].forEach((pergunta, i) => {
-        novaRespostas[pergunta] = respostas[i] ?? "";
+        respostasFinal[pergunta] = respostas[i] ?? "";
       });
-      respostas = novaRespostas;
     }
 
-    const matricula = req.body.matricula || respostas.matricula || "";
-    const atividade = req.body.atividade || respostas.atividade || "";
+    const matricula = req.body.matricula || respostasFinal.matricula || "";
+    const atividade = req.body.atividade || respostasFinal.atividade || "";
 
-    if (!respostas) {
+    if (!respostasFinal) {
       return res.status(400).json({ erro: "Respostas são obrigatórias." });
     }
 
     const novaResposta = new Resposta({
       matricula,
       atividade,
-      respostas,
+      respostas: respostasFinal,
       pagina: pagina || "desconhecido",
       id_unico: id || gerarIdUnico(matricula),
       timestamp: formatarTimestamp(),
       data,
       hora
     });
+
+
 
     await novaResposta.save();
     res.status(201).json({ mensagem: "Resposta salva com sucesso!", id: novaResposta.id_unico });
@@ -120,6 +123,22 @@ router.post("/", async (req, res) => {
     res.status(500).json({ erro: "Erro ao salvar resposta." });
   }
 });
+// GET /respostas/:matricula
+router.get("/:matricula", async (req, res) => {
+  try {
+    const { matricula } = req.params;
+    const resposta = await Resposta.findOne({ matricula });
+    if (resposta) {
+      return res.status(200).json(resposta);
+    } else {
+      return res.status(404).json({ erro: "Nenhuma resposta encontrada" });
+    }
+  } catch (err) {
+    console.error("Erro ao buscar resposta:", err);
+    return res.status(500).json({ erro: "Erro ao buscar resposta" });
+  }
+});
+
 
 
 module.exports = router;
