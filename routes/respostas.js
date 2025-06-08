@@ -1,5 +1,10 @@
 const express = require("express");
 const router = express.Router();
+// Rota de teste
+router.get("/teste", (req, res) => {
+  res.send("✅ Rota /respostas/teste funcionando!");
+});
+
 const Resposta = require("../models/Resposta");
 
 function gerarIdUnico(matricula) {
