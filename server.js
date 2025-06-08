@@ -10,6 +10,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 // Rotas
+const sincronizarRoute = require("./routes/sincronizar");
+app.use("/membro", sincronizarRoute);
+
 const respostaRoutes = require("./routes/respostas");
 const membroRoutes = require("./routes/membros");
 
@@ -22,13 +25,13 @@ mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => {
-  console.log("🟢 Conectado ao MongoDB");
-  app.listen(process.env.PORT || 5000, () => {
-    console.log(`🚀 Servidor rodando na porta ${process.env.PORT || 5000}`);
+  .then(() => {
+    console.log("🟢 Conectado ao MongoDB");
+    app.listen(process.env.PORT || 5000, () => {
+      console.log(`🚀 Servidor rodando na porta ${process.env.PORT || 5000}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ Erro ao conectar no MongoDB:", err.message);
   });
-})
-.catch((err) => {
-  console.error("❌ Erro ao conectar no MongoDB:", err.message);
-});
 
