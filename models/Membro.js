@@ -15,7 +15,8 @@ const membroSchema = new mongoose.Schema({
   id: Number,
   dizimo: String,
   emissao: String,
-  atualizado: String // caso queira usar controle de atualização depois
+  atualizado: String, // caso queira usar controle de atualização depois
+  cod: String // ← novo campo para o código de uso
 });
 
 module.exports = mongoose.model("Membro", membroSchema);

@@ -12,7 +12,9 @@ app.use(cors());
 // Rotas
 const respostaRoutes = require("./routes/respostas");
 const membroRoutes = require("./routes/membros");
+const validadorRoute = require("./routes/validador");
 
+app.use("/validador", validadorRoute);
 app.use("/respostas", respostaRoutes);
 app.use("/membro", membroRoutes);
 console.log("🔧 Rota /membro está registrada!");

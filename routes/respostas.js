@@ -88,7 +88,8 @@ router.post("/", async (req, res) => {
         "Selecione a congregação:",
         "A criança precisa de apoio emocional?",
         "A criança participa de algum desses departamentos?",
-        "A criança foi apresentada em uma igreja evangélica?"
+        "A criança foi apresentada em uma igreja evangélica?",
+        "Por favor, informe o número de WhatsApp do responsável para contato:"
       ]
     };
 

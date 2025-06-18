@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const Membro = require("../models/Membro");
+const Membro = require("./models/Membro");
 const { membros } = require("./utils/dados");
+
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
